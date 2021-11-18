@@ -1,0 +1,180 @@
+#%RAML 1.0
+title: hotel booking REST API
+version:  v1
+
+securitySchemes:
+  custom_auth:
+    description: Custom authentication
+    type: x-clientid
+    describedBy:
+      headers:
+        client_id:
+          type: string
+        client_secret:
+          type: string
+
+securedBy: custom_auth
+
+
+traits:
+  unauthorized:
+    responses:
+      401:
+        body:
+          application/json:
+            example:
+              message: Not authorized. Try with correct credentials.
+  server_side_error:
+    responses:
+      500:
+        body:
+          application/json:
+            example:
+              message: Something went wrong. Try later.
+types:
+  customer:  !include DataTypes/customerdataType.raml
+  hotelBooking: !include DataTypes/hotelBookingdataType.raml
+/customers:
+  get:
+    displayName: Get customer.
+    description: Get customer By id.
+    queryParameters:
+      id: 
+        type:  string
+        example: 18955A0334
+        required: false
+        
+      name:
+        type: string
+        example:  Ram
+        required: false
+
+    responses:
+      200:
+        body:
+          application/json:
+            example:  !include Examples/customersExample.raml
+            type: customer[]
+  post:
+    displayName: Add a new customer details.
+    description: Add a new customer details.
+    body:
+      application/json:
+        example: !include Examples/customerExample.raml
+        type: customer
+    responses:
+      201:
+        body:
+          application/json:
+            example:
+              message: Customer details has been added  
+
+
+  /{id}:
+    get:
+      displayName: Get customer By name
+      description: Get customer By name
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include Examples/customerExample.raml
+              type:  customer    
+    put:
+      displayName: Update customer By id.
+      description: Update customer By id.
+      body:
+        application/json:
+          example:
+            type:
+      responses:
+        201:
+          body:
+            application/json:
+              example:
+                message: Customer details has been updated
+    delete:
+      displayName:  Delete customer By id.
+      description:  Delete customer By id.
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                message:  Customer details has been deleted   
+
+   
+ 
+    /hotelBookings:
+      get:
+        displayName: Get hotelBooking.
+        description: Get hotelBooking By hotelId.
+        queryParameters:
+        
+          nameOfHotel:
+            type: string
+            required: false
+            enum:
+              - OYO
+              - FAB
+              - KEYS
+          city:
+            type: string
+            required: false
+
+        responses:
+          200:
+            body:
+              application/json:
+                example:  !include Examples/hotelBookingsExample.raml
+                type: hotelBooking[]
+      post:
+        displayName: Add hotelBooking.
+        description: Add hotelBooking By hotelId. 
+        body:
+          application/json:
+            example: !include Examples/hotelBookingExample.raml
+            type: hotelBooking
+        responses:
+          201:
+            body:
+              application/json:
+                example:  
+                  message: Hotelbooking details has been added    
+      /{hotelId}:
+        get:
+          displayName:  Delete hotelBooking by city.
+          description: Delete hotelBooking by city.
+          responses:
+            200:
+              body:
+                application/json:
+                  example:  !include Examples/hotelBookingExample.raml
+                  type: hotelBooking
+        put:
+          displayName:  Update hotelbooking by nameOfHotel.
+          description:  Update hotelbooking by nameOfHotel.
+          body:
+            application/json:
+              example:  !include Examples/hotelBookingExample.raml
+              type: hotelBooking
+          responses:
+            201:
+              body:
+                application/json:
+                  example:
+                    message: Customer details has been added
+        delete:
+          displayName: Delete hotelBooking by availabity.
+          description: Delete hotelBooking by availabity.
+          responses:
+            200:
+              body:
+                application/json:
+                  example:
+                    message:  hotel bookings has been deleted
+
+
+
+
+              

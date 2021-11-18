@@ -1,0 +1,4 @@
+%dw 2.0
+
+type auto_6dfe3400_8421_4cd1_bdd8_2fb264207e8e_Output_Payload = {| message: "Hotel is updated" | "Hotel is not updated" |}
+

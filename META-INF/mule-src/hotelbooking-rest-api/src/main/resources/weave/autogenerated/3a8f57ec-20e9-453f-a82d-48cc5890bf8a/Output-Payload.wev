@@ -1,0 +1,12 @@
+%dw 2.0
+
+type auto_3a8f57ec_20e9_453f_a82d_48cc5890bf8a_Output_Payload = {
+  phoneNumber: String, 
+  gender: String, 
+  city: String, 
+  idProof: String, 
+  name: String, 
+  id: String, 
+  _?: Any
+}
+

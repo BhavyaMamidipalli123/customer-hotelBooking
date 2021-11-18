@@ -1,0 +1,272 @@
+ {
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "title": "The root schema",
+    "description": "The root schema comprises the entire JSON document.",
+    "default": {},
+    "examples": [
+        {
+    "customerId": "a1234",
+    "customerName": "johnns",
+    "customerIdProof": "pan",
+    "Gender":"male",
+    "PhoneNumber":9876789765,
+    "CustomerCity":"hyderabad",
+    "HotelId":1223,
+    "NameOfHotels":"oyo",
+    "Numberofrooms":4,
+    "NumberOfPeople":3,
+    "priceperday": 3500,
+    "hotelName": "Oyo 1123 Mayura Nandan",
+    "address": "1-3/32, 3rd street, Anand Nagar",
+    "city": "Bangalore",
+    "emptyrooms": 10,
+    "roomType": "Standard",
+    "bedSize": "King",
+    "AirConditioner": true,
+    "availability": 10,
+    "startDate" :"12Apr2020",
+    "endDate" :"10Apr2021"
+        }
+    ],
+    "required": [
+    "customerId",
+    "customerName",
+    "customerIdProof",
+    "Gender",
+	"PhoneNumber",
+	"CustomerCity",
+	"HotelId",
+	"NameOfHotels",
+	"Numberofrooms",
+	"NumberOfPeople",
+	"priceperday",
+	"hotelName",
+        "address",
+        "city",
+	"bedSize",
+	"emptyRooms",
+	"AirConditioner",
+	"availability",
+        "roomType",
+	    "startDate",
+        "endDate" 
+    ],
+    "properties": {
+        "customerId": {
+            "$id": "#/properties/customerId",
+            "type": "string",
+            "title": "The ID schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": 0,
+            "examples": [
+                "a1234"
+            ]
+        },
+
+	 "customerName": {
+            "$id": "#/properties/customerName",
+            "type": "string",
+            "title": "The ID schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": 0,
+            "examples": [
+                "johnns"
+            ]
+        },
+
+	 "Gender": {
+            "$id": "#/properties/Gender",
+            "type": "string",
+            "title": "The ID schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": 0,
+            "examples": [
+                "male"
+            ]
+        },
+	"customerIdProof": {
+            "$id": "#/properties/customerIdProof",
+            "type": "string",
+            "title": "The ID schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": 0,
+            "examples": [
+                "pan"
+            ]
+        },
+	"PhoneNumber": {
+            "$id": "#/properties/PhoneNumber",
+            "type": "integer",
+            "title": "The ID schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": 0,
+            "examples": [
+                9876789765
+            ]
+        },
+	 "CustomerCity": {
+            "$id": "#/properties/CustomerCity",
+            "type": "string",
+            "title": "The ID schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": 0,
+            "examples": [
+                "hyderabad"
+            ]
+        },
+        "HotelId": {
+            "$id": "#/properties/HotelId",
+            "type": "integer",
+            "title": "The ID schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": 0,
+            "examples": [
+                77
+            ]
+        },
+        "hotelName": {
+            "$id": "#/properties/hotelName",
+            "type": "string",
+            "title": "The hotelName schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "Oyo 1123 Mayura Nandan"
+            ]
+        },
+        "Numberofrooms": {
+            "$id": "#/properties/Numberofrooms",
+            "type": "integer",
+            "title": "The ID schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": 0,
+            "examples": [
+                4
+            ]
+        },
+        "NumberOfPeople": {
+            "$id": "#/properties/NumberOfPeople",
+            "type": "integer",
+            "title": "The ID schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": 0,
+            "examples": [
+                3
+            ]
+        },
+        "priceperday": {
+            "$id": "#/properties/priceperday",
+            "type": "integer",
+            "title": "The pricePerDay schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": 0,
+            "examples": [
+                4500
+            ]
+        },
+        "NameOfHotels": {
+            "$id": "#/properties/NameOfHotels",
+            "type": "string",
+            "title": "The hotelName schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "oyo"
+            ]
+        },
+        "address": {
+            "$id": "#/properties/address",
+            "type": "string",
+            "title": "The address schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "1-3/32, 3rd street, Anand Nagar"
+            ]
+        },
+        "city": {
+            "$id": "#/properties/city",
+            "type": "string",
+            "title": "The city schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "Banglore"
+            ]
+        },
+        "emptyRooms": {
+            "$id": "#/properties/emptyRooms",
+            "type": "integer",
+            "title": "The emptyRooms schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": 0,
+            "examples": [
+                10
+            ]
+        },
+          "roomType": {
+            "$id": "#/properties/roomType",
+            "type": "string",
+            "title": "The type schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                  "Standard"
+               ]
+           },
+        "bedSize": {
+            "$id": "#/properties/bedSize",
+            "type": "string",
+            "title": "The emptyRooms schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": 0,
+            "examples": [
+                "King"
+            ]
+        },
+        "AirConditioner": {
+            "$id": "#/properties/AirConditioner",
+            "type": "boolean",
+            "title": "The ID schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": 0,
+            "examples": [
+                true
+            ]
+        },
+        "avaliability": {
+            "$id": "#/properties/avaliability",
+            "type": "integer",
+            "title": "The emptyRooms schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": 0,
+            "examples": [
+                10
+            ]
+        },
+          "startDate": {
+            "$id": "#/properties/startDate",
+            "type": "string",
+            "title": "The type schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                  "12Apr2020"
+               ]
+           },
+          "endDate": {
+            "$id": "#/properties/endDate",
+            "type": "string",
+            "title": "The type schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                  "10Apr2021"
+               ]
+            }
+           },
+        "additionalProperties": true
+}
+

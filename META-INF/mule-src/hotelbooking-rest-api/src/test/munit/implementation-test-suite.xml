@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="implementation-test-suite.xml" />
+	<munit:test name="implementation-test-suite-getCustomerDetailsFlowImplTest" doc:id="867c84da-958b-4639-a4b1-e0c108400b69" description="Test">
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="2af535d8-4c9b-4ac9-9ff4-cccfa723cf91" cloneOriginalEvent="true"/>
+			<flow-ref doc:name="Flow-ref to getCustomerDetailsFlowImpl" doc:id="2b44eeda-80e5-4add-922d-c10526aac160" name="getCustomerDetailsFlowImpl"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="86ca1534-e555-43f3-809b-7db2eeba2a09" is="#[MunitTools::notNullValue()]" message="found null values in getCustomerDetails" expression="#[payload]" />
+		</munit:validation>
+	</munit:test>
+
+
+</mule>

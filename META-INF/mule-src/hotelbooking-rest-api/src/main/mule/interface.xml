@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd">
+    <http:listener-config name="hotel-booking-rest-api-httpListenerConfig">
+        <http:listener-connection host="0.0.0.0" port="${secure::http.port}" />
+    </http:listener-config>
+	<flow name="hotel-booking-rest-api-main">
+        <http:listener config-ref="hotel-booking-rest-api-httpListenerConfig" path="/api/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body>#[payload]</http:body>
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:router config-ref="hotel-booking-rest-api-config" />
+        <error-handler>
+            <on-error-propagate type="APIKIT:BAD_REQUEST">
+                <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Bad request"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">400</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+            <on-error-propagate type="APIKIT:NOT_FOUND">
+                <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Resource not found"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">404</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+            <on-error-propagate type="APIKIT:METHOD_NOT_ALLOWED">
+                <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Method not allowed"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">405</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+            <on-error-propagate type="APIKIT:NOT_ACCEPTABLE">
+                <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Not acceptable"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">406</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+            <on-error-propagate type="APIKIT:UNSUPPORTED_MEDIA_TYPE">
+                <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Unsupported media type"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">415</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+            <on-error-propagate type="APIKIT:NOT_IMPLEMENTED">
+                <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Not Implemented"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">501</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+        </error-handler>
+    </flow>
+    <apikit:config name="hotel-booking-rest-api-config" api="hotel-booking-rest-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+    <flow name="hotel-booking-rest-api-console">
+        <http:listener config-ref="hotel-booking-rest-api-httpListenerConfig" path="/console/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body>#[payload]</http:body>
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:console config-ref="hotel-booking-rest-api-config" />
+        <error-handler>
+            <on-error-propagate type="APIKIT:NOT_FOUND">
+                <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Resource not found"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">404</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+        </error-handler>
+    </flow>
+    <flow name="put:\customers\(id):application\json:hotel-booking-rest-api-config" doc:id="4a8a94d5-3132-4324-9e2e-803a6c5e9585">
+        <flow-ref doc:name="updateCustomerByIdFlow" doc:id="251323b7-33c7-4810-9281-858d7129e8d6" name="updateCustomerByIdFlowImpl" />
+    </flow>
+    <flow name="put:\customers\(id)\hotelbookings\(hotelId):application\json:hotel-booking-rest-api-config" doc:id="a8a1821f-71ff-4d65-a8aa-d44955f3bf6f">
+        <flow-ref doc:name="updateHotelByIdFlow" doc:id="e1c30e29-9b69-4383-8509-25639c5aa632" name="updateHotelBookingByIdFlowImpl" />
+    </flow>
+    <flow name="delete:\customers\(id):hotel-booking-rest-api-config" doc:id="54848976-abd4-46ef-af48-253c50237643">
+        <flow-ref doc:name="deleteCustomerByIdFlow" doc:id="d748dae1-4e30-49d1-8c4f-bdf8ec5d52bf" name="deleteCustomerByIdFlowImpl" />
+    </flow>
+    <flow name="get:\customers:hotel-booking-rest-api-config" doc:id="11e65942-bb1e-4491-9ff1-e532c3f8e2b9">
+        <flow-ref doc:name="getCustomersDetailsFlow" doc:id="4d94dcde-aee7-4472-bbbe-da96eb250598" name="getCustomerDetailsFlowImpl" />
+    </flow>
+    <flow name="get:\customers\(id)\hotelbookings:hotel-booking-rest-api-config" doc:id="66961c4a-1382-4a23-9d86-d3164e840809">
+        <flow-ref doc:name="getCustomerHotelDetailFlow" doc:id="ff0fc5af-73fb-4914-8d2d-a61a8579df80" name="getHotelBookingDetailsFlowImpl" />
+    </flow>
+    <flow name="get:\customers\(id):hotel-booking-rest-api-config" doc:id="e8de309f-ebd6-4c21-bd5c-baf0a0bfc15c">
+        <flow-ref doc:name="getCustomerByIdFlow" doc:id="887546f3-d078-4758-b7e7-e398670b205b" name="getCustomerByIdFlowImpl" />
+    </flow>
+    <flow name="get:\customers\(id)\hotelbookings\(hotelId):hotel-booking-rest-api-config" doc:id="449a93e0-af96-4857-a327-9a157b8cb79f">
+        <flow-ref doc:name="getHotelByIdWithCustomerIdFlow" doc:id="0dc932ac-c0cc-4601-981d-049e2626fdc2" name="getHotelByIdFlowImpl" />
+    </flow>
+    <flow name="post:\customers:application\json:hotel-booking-rest-api-config" doc:id="7b506149-e002-41e9-92df-9087d4355422">
+        <flow-ref doc:name="postCustomerDetailsFlow" doc:id="860d214b-5850-4544-986d-20be2cd52f8a" name="insertCustomerFlowImpl" />
+    </flow>
+    <flow name="post:\customers\(id)\hotelbookings:application\json:hotel-booking-rest-api-config" doc:id="9e4e1b44-4e39-4a6f-ac23-0cfad7329d72">
+        <flow-ref doc:name="postCustomerHotelDetailsFlow" doc:id="3c93021b-20fc-425c-80c1-2be8de050a64" name="insertCustomerHotelBookingFlowImple" />
+    </flow>
+    <flow name="delete:\customers\(id)\hotelbookings\(hotelId):hotel-booking-rest-api-config">
+		<flow-ref doc:name="deleteHotelById" doc:id="1fa5e36b-ac75-4e40-9cd4-d1389cd284b3" name="DeleteHotelByIdFlowImpl"/>
+    </flow>
+</mule>

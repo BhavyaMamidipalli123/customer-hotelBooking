@@ -1,0 +1,19 @@
+%dw 2.0
+
+type auto_7ab969c9_d62c_4b47_965b_f2933b434c18_Input_Payload = {
+  address: String, 
+  city: String, 
+  endDate: String, 
+  bedSize: String, 
+  nameOfHotel: String, 
+  numberOfRooms: Number, 
+  hotelId: Number, 
+  availability: Number, 
+  pricePerDay: Number, 
+  airConditioner: Boolean, 
+  numberOfPeople: Number, 
+  roomType: String, 
+  startDate: String, 
+  _?: Any
+}
+
